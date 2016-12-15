@@ -34,6 +34,7 @@
 			$("#input").keypress(function(event) {
 				if (event.which == 13) {
 					event.preventDefault();
+					$('.jsListings').html('');
 					send();
 				}
 			});
@@ -88,6 +89,7 @@
 			}
 		}
 		function setInput(text) {
+			$('.jsListings').html('');
 			$("#input").val(text);
 			send();
 		}
@@ -161,7 +163,15 @@
 				$.each(dataRes, function(key ,val){
 				
 					if(key == 'title'){
-						$('.jsListings').append('<li>'+val+'</li>');
+						var html = '<div class="col-sm-6 col-md-2 col-xs-12 lotTemplet">';
+						if(dataRes['featuredImageUrl'] == undefined)
+							html += '<img src="http://i69.photobucket.com/albums/i76/pro53/tbird160x120sm.gif" id="lot-img" style="height: 120px" />';
+						else
+							html += '<img src="'+dataRes['featuredImageUrl']+'" id="lot-img" />';
+							
+							html += '<div class="lot-title">'+dataRes['title']+'</div>';
+							html += '</div>';
+						$('.jsListings').append(html);
 					}
 					
 				})
@@ -209,8 +219,8 @@
 <div class="container">
 <div class="container-fluid bg-1 text-center">
 	
-		    <div class="jsListings">
-
+		    <div class="col-md-offset-2 row jsListings">
+			
 			</div>
 
 
