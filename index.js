@@ -5,6 +5,12 @@ const bodyParser = require('body-parser');
 
 const restService = express();
 restService.use(bodyParser.json());
+var path = require('path');
+
+restService.get('/', function(req, res) {
+    res.sendFile(path.join(__dirname + '/index.html'));
+});
+
 
 restService.post('/hook', function (req, res) {
 
