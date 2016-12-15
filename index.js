@@ -7,7 +7,7 @@ const restService = express();
 restService.use(bodyParser.json());
 var path = require('path');
 
-var http = require("http");
+    var http = require('http');
 
 restService.get('/', function(req, res) {
     res.sendFile(path.join(__dirname + '/index.html'));
@@ -31,36 +31,30 @@ restService.post('/hook', function (req, res) {
             }
 
             if(requestBody.result.action == 'listings'){
-                var query = 'https://search-build.equipmentone.com/e1_search?wt=json&q=*&fq={!tag=mar}marketplace:(%22EquipmentOne%22)&fq=auctionEndDateTimeUTC:([NOW%20TO%20*])&sort=siteSort%20asc,auctionEndDateTimeUTC%20asc,reserveType%20asc,highBidAmount%20desc&rows=5';
-                // get is a simple wrapper for request()
-                // which sets the http method to GET
-                var request = http.get(query, function (response) {
-                    // data is streamed in chunks from the server
-                    // so we have to handle the "data" event    
-                    var buffer = "", 
-                        data,
-                        route;
+     
 
-                    response.on("data", function (chunk) {
-                        buffer += chunk;
-                    }); 
+            //The url we want is: 'www.random.org/integers/?num=1&min=1&max=10&col=1&base=10&format=plain&rnd=new'
+                var options = {
+                  host: 'www.random.org',
+                  path: '/integers/?num=1&min=1&max=10&col=1&base=10&format=plain&rnd=new'
+                };
 
-                    response.on("end", function (err) {
-                        // finished transferring data
-                        // dump the raw data
-                        console.log(buffer);
-                        console.log("\n");
-                        data = JSON.parse(buffer);
-                        route = data.routes[0];
+                callback = function(response) {
+                  var str = '';
 
-                        // extract the distance and time
-                        console.log("Walking Distance: " + route.legs[0].distance.text);
-                        console.log("Time: " + route.legs[0].duration.text);
-                        console.log(data);
-                        speech = 'Solr data success.. getting listings';
-                    }); 
-                }); 
-            }
+                  //another chunk of data has been recieved, so append it to `str`
+                  response.on('data', function (chunk) {
+                    str += chunk;
+                  });
+
+                  //the whole response has been recieved, so we just print it out here
+                  response.on('end', function () {
+                    console.log(str);
+                  });
+                }
+
+                 speech = http.request(options, callback).end();
+                }
 
 
             if (requestBody.result.action == 'greetings') {
