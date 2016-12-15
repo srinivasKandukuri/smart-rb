@@ -20,7 +20,7 @@ restService.post('/hook', function (req, res) {
     console.log('hook request');
 
     try {
-        var speech = 'empty speech';
+        var speech = "I'm a bit confused by that last part.";
 
         if (req.body) {
             var requestBody = req.body;
