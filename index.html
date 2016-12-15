@@ -81,8 +81,10 @@
 			setResponse("Loading...");
 		}
 		function setResponse(val) {
-			responsiveVoice.speak(val.result.fulfillment.speech, "UK English Female", {volume: 1});
-			$("#response").text(JSON.stringify(val, undefined, 2));
+			if(val != 'Loading...'){ 
+				responsiveVoice.speak(val.result.fulfillment.speech, "UK English Female", {volume: 1});
+				$("#response").text(JSON.stringify(val, undefined, 2));
+			}
 		}
 	</script>
 	<style type="text/css">
