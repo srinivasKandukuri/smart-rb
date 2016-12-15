@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Jumbotron Template for Bootstrap</title>
+    <title>smart-rb</title>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <!-- Bootstrap core CSS -->
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -123,14 +123,15 @@
 			setResponse("Loading...");
 		}
 		function setResponse(val) {
-			if(val != 'Loading...'){ 
+			if(val != 'Loading...'){
+				$('#jsspeech').html(val.result.fulfillment.speech);
 				responsiveVoice.speak(val.result.fulfillment.speech, "UK English Female", {volume: 1});
 				if(val.result.fulfillment.speech == 'we have 5 listings in live auction'){
 					console.log('reading listings from json');
 					
 					callsolr();
 				}
-				$("#response").text(JSON.stringify(val, undefined, 2));
+				console.log('REPONSE--- :' + JSON.stringify(val, undefined, 2));
 			}
 		}
 
@@ -180,6 +181,9 @@
 	#recording{
 		cursor: pointer; cursor: hand;
 	}
+	.samplebox{
+		background-color: rgba(204, 158, 153, 0.14);
+	}
 	</style>
 	
 </head>
@@ -190,33 +194,37 @@
        		<div class="container-fluid bg-1 text-center">
 		    	<img src="https://raw.githubusercontent.com/srinivasKandukuri/smart-rb/master/voice-logo.png" alt="Bird" id ="recording">
 		  </div>
+		  <br>
+		  <div class="container-fluid text-center">
+		  	<div class="col-md-6 col-md-offset-3">
+		    	 <input type="text" class="form-control" placeholder="Search" id="input">
+		  </div>
+		  </div>
+
       </div>
 </div>
+
+
 <div class="container">
 <div class="container-fluid bg-1 text-center">
-	<form>
-    <div class="input-group">
-      <input type="text" class="form-control" placeholder="Search" id="input">
-      <div class="input-group-btn">
-        <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-      </div>
-    </div>
-  </form>
-
-	<div class="container-fluid bg-1 text-center">
-		    <div class="jsListings hidden">
-		    	
-			</div>
-		  </div>
 	
+		    <div class="jsListings">
+
+			</div>
+
+
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3 samplebox">
+					<h1 id="jsspeech"></h1>
+				</div>
+			</div>
+</div>
 
 </div>
-</div>
 
 
 
 
-<textarea id="response" cols="40" rows="10"></textarea>
 
 
 
