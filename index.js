@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const restService = express();
 restService.use(bodyParser.json());
 var path = require('path');
-var obj = require("/listings.json");
+var obj = require("listings.json");
 
 restService.get('/', function(req, res) {
     res.sendFile(path.join(__dirname + '/index.html'));
