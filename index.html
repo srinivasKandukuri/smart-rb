@@ -7,6 +7,7 @@
 		var accessToken = "92036f9e6ec24dfe896fc9c74562f47b";
 		var baseUrl = "https://api.api.ai/v1/";
 		$(document).ready(function() {
+			callsolr();
 			$("#input").keypress(function(event) {
 				if (event.which == 13) {
 					event.preventDefault();
@@ -87,17 +88,30 @@
 				if(val.result.fulfillment.speech == 'we have 5 listings in live auction'){
 					console.log('reading listings from json');
 					
-					$.getJSON( "listings.json", function( data ) {
-						console.log(data);
-						  var items = [];
-						  $.each( data, function( key, val ) {
-						    
-						  });
-						
-					});
+					callsolr();
 				}
 				$("#response").text(JSON.stringify(val, undefined, 2));
 			}
+		}
+
+		function callsolr(){
+			query = 'https://search-build.equipmentone.com/e1_search?wt=json&q=*&fq={!tag=mar}marketplace:(%22EquipmentOne%22)&fq=auctionEndDateTimeUTC:([NOW%20TO%20*])&sort=siteSort%20asc,auctionEndDateTimeUTC%20asc,reserveType%20asc,highBidAmount%20desc&rows=5';
+			$.ajax({
+				type: "GET",
+				url: query,
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				success: function(data) {
+					//setResponse(JSON.stringify(data, undefined, 2));
+					response = data.docs;
+					console.log(response);
+
+				},
+				error: function() {
+					setResponse("Internal Server Error");
+				}
+			});
+
 		}
 	</script>
 	<style type="text/css">
