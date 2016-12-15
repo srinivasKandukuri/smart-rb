@@ -57,6 +57,7 @@ restService.post('/hook', function (req, res) {
                         console.log("Walking Distance: " + route.legs[0].distance.text);
                         console.log("Time: " + route.legs[0].duration.text);
                         console.log(data);
+                        speech = 'Solr data success.. getting listings';
                     }); 
                 }); 
             }
