@@ -32,7 +32,7 @@ restService.post('/hook', function (req, res) {
 
             if(requestBody.result.action == 'listings'){
 
-                    json = {'sample data'};
+                    json = JSON.stringify({'sample data'});
 
                     speech = json;
             }
