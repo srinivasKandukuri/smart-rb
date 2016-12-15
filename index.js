@@ -6,15 +6,13 @@ const bodyParser = require('body-parser');
 const restService = express();
 restService.use(bodyParser.json());
 var path = require('path');
-var obj = require("listings.json");
-
 restService.get('/', function(req, res) {
     res.sendFile(path.join(__dirname + '/index.html'));
 });
 
 
 restService.post('/hook', function (req, res) {
-console.log(obj);
+
     console.log('hook request');
 
     try {
