@@ -35,7 +35,7 @@ restService.post('/hook', function (req, res) {
                 //speech = 'calling random api';
             //The url we want is: 'www.random.org/integers/?num=1&min=1&max=10&col=1&base=10&format=plain&rnd=new'
                var options = {
-                  host: 'http://www.random.org',
+                  host: 'https://www.random.org',
                   path: '/integers/?num=1&min=1&max=10&col=1&base=10&format=plain&rnd=new'
                 };
 
@@ -55,7 +55,7 @@ restService.post('/hook', function (req, res) {
                 }
 
                  http.request(options, callback).end();
-                 
+
                 }
 
 
