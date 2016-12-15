@@ -32,7 +32,29 @@ restService.post('/hook', function (req, res) {
 
             if(requestBody.result.action == 'listings'){
 
-                    speech = 'calling listing API';
+                    json = {
+                              "employees": {
+                                "employee": [
+                                  {
+                                    "id": "1",
+                                    "firstName": "Tom",
+                                    "lastName": "Cruise"
+                                  },
+                                  {
+                                    "id": "2",
+                                    "firstName": "Maria",
+                                    "lastName": "Sharapova"
+                                  },
+                                  {
+                                    "id": "3",
+                                    "firstName": "James",
+                                    "lastName": "Bond"
+                                  }
+                                ]
+                              }
+                            }
+                            
+                    speech = json;
             }
 
 
