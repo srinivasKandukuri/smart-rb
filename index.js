@@ -7,6 +7,13 @@ const restService = express();
 restService.use(bodyParser.json());
 var path = require('path');
 
+var fs = require('fs');
+var obj;
+fs.readFile('listings', 'utf8', function (err, data) {
+  if (err) throw err;
+  obj = JSON.parse(data);
+});
+
 restService.get('/', function(req, res) {
     res.sendFile(path.join(__dirname + '/index.html'));
 });
@@ -33,7 +40,7 @@ restService.post('/hook', function (req, res) {
 
 
             if (requestBody.result.action == 'greetings') {
-                speech = 'Hello World';
+                speech = obj;
 
             }
         }
