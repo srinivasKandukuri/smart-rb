@@ -53,8 +53,8 @@ restService.post('/hook', function (req, res) {
                                 ]
                               }
                             }
-                            
-                    speech = json;
+
+                    speech = JSON.parse(json);
             }
 
 
