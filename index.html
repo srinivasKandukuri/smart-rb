@@ -84,6 +84,18 @@
 		function setResponse(val) {
 			if(val != 'Loading...'){ 
 				responsiveVoice.speak(val.result.fulfillment.speech, "UK English Female", {volume: 1});
+				if(val.result.fulfillment.speech == 'we have 5 listings in live auction'){
+					console.log('reading listings from json');
+					
+					$.getJSON( "/listings.json", function( data ) {
+						console.log(data);
+						  var items = [];
+						  $.each( data, function( key, val ) {
+						    
+						  });
+						
+					});
+				}
 				$("#response").text(JSON.stringify(val, undefined, 2));
 			}
 		}

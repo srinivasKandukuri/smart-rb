@@ -31,7 +31,7 @@ restService.post('/hook', function (req, res) {
             }
 
             if(requestBody.result.action == 'listings'){
-                
+                speech = 'we have 5 listings in live auction';
             }
 
 
