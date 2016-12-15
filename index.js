@@ -2,7 +2,7 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
-
+var listings = require('./listings.json');
 
 const restService = express();
 restService.use(bodyParser.json());
@@ -17,7 +17,17 @@ restService.post('/hook', function (req, res) {
         if (req.body) {
             var requestBody = req.body;
 
-            if (requestBody.result) {
+            // place bidding
+            if(requestBody.result.action == 'placing-bid'){
+                speech = 'please wait for sometime we are processing...'
+            }
+
+            if(requestBody.result.action == 'listings'){
+                speech = listings;
+            }
+
+
+            if (requestBody.result.action == 'greetings') {
                 speech = 'Hello World';
 
             }
