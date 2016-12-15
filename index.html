@@ -3,11 +3,19 @@
 	<title>API Example</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<script type="text/javascript">
 		var accessToken = "92036f9e6ec24dfe896fc9c74562f47b";
 		var baseUrl = "https://api.api.ai/v1/";
 		$(document).ready(function() {
-			callsolr();
+
 			$("#input").keypress(function(event) {
 				if (event.which == 13) {
 					event.preventDefault();
@@ -95,24 +103,40 @@
 		}
 
 		function callsolr(){
+
 			query = 'https://search-build.equipmentone.com/e1_search?wt=json&q=*&fq={!tag=mar}marketplace:(%22EquipmentOne%22)&fq=auctionEndDateTimeUTC:([NOW%20TO%20*])&sort=siteSort%20asc,auctionEndDateTimeUTC%20asc,reserveType%20asc,highBidAmount%20desc&rows=5';
+				
 			$.ajax({
-				type: "GET",
-				url: query,
-				contentType: "application/json; charset=utf-8",
-				dataType: "json",
-				success: function(data) {
-					//setResponse(JSON.stringify(data, undefined, 2));
-					response = data.docs;
-					console.log(response);
-
+				 'url': query,
+				 'success': function(data){
+				 	console.log(data);
+				 	res = data.response.docs;
+				 	processListings(res);
+				 	$('.jsListings').removeClass('hidden');
 				},
-				error: function() {
-					setResponse("Internal Server Error");
-				}
-			});
-
+				'error': function(data, status,error){
+					
+				},
+				'dataType': 'jsonp',
+				'jsonp': 'json.wrf',
+				'processData': false
+			 });
 		}
+
+		function processListings(res){
+			$.each(res, function(objRes ,dataRes){
+				$.each(dataRes, function(key ,val){
+				
+					if(key == 'title'){
+						$('.jsListings').append('<li>'+val+'</li>');
+					}
+					
+				})
+			})
+		}
+
+
+
 	</script>
 	<style type="text/css">
 		body { width: 500px; margin: 0 auto; text-align: center; margin-top: 20px; }
@@ -126,9 +150,15 @@
 <body>
 	<div>
 		<input id="input" type="text"> <button id="rec">Speak</button>
-		<br>Response<br> <textarea id="response" cols="40" rows="20"></textarea>
+		<br>Response<br> <textarea id="response" cols="40" rows="10"></textarea>
+	</div>
+	<br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+	<div class="jsListings hidden">
+		
 	</div>
 
 <script src="http://code.responsivevoice.org/responsivevoice.js"></script>
+
+
 </body>
 </html>
