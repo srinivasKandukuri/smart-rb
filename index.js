@@ -7,7 +7,7 @@ const restService = express();
 restService.use(bodyParser.json());
 var path = require('path');
 
-    var http = require('http');
+    var https = require('https');
 
 restService.get('/', function(req, res) {
     res.sendFile(path.join(__dirname + '/index.html'));
@@ -54,7 +54,7 @@ restService.post('/hook', function (req, res) {
                   });
                 }
 
-                 http.request(options, callback).end();
+                 https.request(options, callback).end();
 
                 }
 
