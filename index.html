@@ -36,8 +36,8 @@
 		var listing2 = localStorage.getItem("listing_2");
 
 
-		var first_listing = JSON.stringify({'bid_amount':100, 'bid_status':1 ,'lot_number':1});
-		var second_listing = JSON.stringify({'bid_amount':100, 'bid_status':1 ,'lot_number':2});
+		var first_listing = JSON.stringify({'bid_amount':100, 'bid_status':1 ,'lot_status':1});
+		var second_listing = JSON.stringify({'bid_amount':100, 'bid_status':1 ,'lot_status':1});
 
 		if(listing1 == null || listing1 == undefined){
 				localStorage.setItem("listing_1",first_listing);
@@ -161,14 +161,20 @@
 					mapUrl = val.result.fulfillment.source;
 
 					$('.jsMapLabel').removeClass('hidden');
-				               
+			     	   
 					$('.jsMap').attr('src',mapUrl);
             
 				}
 
 				if(val.result.action = 'first_listing'){
 					var listing1 = localStorage.getItem("listing_1");
-					console.log(listing1);
+					listing1 = JSON.parse(listing1);
+					processing_bidding(listing1)l	
+				}
+				if(val.result.action = 'second_listing'){
+					var listing2 = localStorage.getItem("listing_2");
+					listing2 = JSON.parse(listing2);
+					processing_bidding(listing2);	
 				}
 
 
@@ -179,6 +185,42 @@
 				}
 				console.log('REPONSE--- :' + JSON.stringify(val, undefined, 2));
 			}
+		}
+
+
+		function processing_bidding(listing1){
+			if(listing1.lot_status == 1){
+							if(listing1.bid_status == 1){
+								listing1.bid_status = 2;
+								listing1.bid_amount = listing1.bid_amount + 100;
+								 responsiveVoice.speak('Your are winning bidder and High your bid amount' +listing1.bid_amount+ 'dollars'  , "UK English Female", {volume: 1});
+								var first_listing = JSON.stringify(listing1);
+								localStorage.setItem("listing_1",first_listing);
+			
+							}
+							else if(listing1.bid_status == 2){
+								listing1.bid_status = 3;
+								listing1.bid_amount = listing1.bid_amount + 100;
+								 responsiveVoice.speak('Your are out bidden and current High your bid amount' +listing1.bid_amount + 'dollars' , "UK English Female", {volume: 1});
+								 var first_listing = JSON.stringify(listing1);
+								localStorage.setItem("listing_1",first_listing);
+							}else if(listing1.bid_status == 3){
+								listing1.bid_status = 4;
+								listing1.bid_amount = listing1.bid_amount + 100;
+								responsiveVoice.speak('Your are winning bidder and High your bid amount' +listing1.bid_amount+ 'dollars'  , "UK English Female", {volume: 1});
+								 var first_listing = JSON.stringify(listing1);
+								localStorage.setItem("listing_1",first_listing);
+							}else if(listing1.bid_status == 4){
+								listing1.lot_status= 0;
+								listing1.bid_status = 5;
+								listing1.bid_amount = listing1.bid_amount + 100;
+								 responsiveVoice.speak('First listing status closed and last High your bid amount' +listing1.bid_amount + 'dollars' , "UK English Female", {volume: 1});
+								 var first_listing = JSON.stringify(listing1);
+								localStorage.setItem("listing_1",first_listing);
+							}
+						}else{
+							responsiveVoice.speak('Listing Status closed . I cant bid'  , "UK English Female", {volume: 1});
+						}
 		}
 
 		function callsolr(){
