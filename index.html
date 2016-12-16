@@ -31,6 +31,31 @@
 		var baseUrl = "https://api.api.ai/v1/";
 		$(document).ready(function() {
 
+
+		var listing1 = localStorage.getItem("listing_1");
+		var listing2 = localStorage.getItem("listing_2");
+
+
+		var first_listing = JSON.stringify({'bid_amount':100, 'bid_status':1 ,'lot_number':1});
+		var second_listing = JSON.stringify({'bid_amount':100, 'bid_status':1 ,'lot_number':2});
+
+		if(listing1 == null || listing1 == undefined){
+				localStorage.setItem("listing_1",first_listing);
+		}
+
+		if(listing2 == null || listing2 == undefined){
+				localStorage.setItem("listing_2",second_listing);
+		}
+
+
+
+
+
+
+
+
+
+
 			$("#input").keypress(function(event) {
 				if (event.which == 13) {
 					event.preventDefault();
@@ -134,13 +159,15 @@
 
 				if(val.result.action == 'live-auction-location'){
 					mapUrl = val.result.fulfillment.source;
-					
-					
-           
+
 					$('.jsMapLabel').removeClass('hidden');
 				               
 					$('.jsMap').attr('src',mapUrl);
             
+				}
+
+				if(val.result.action = 'first_listing'){
+					console.log(val.result.fulfillment.data);
 				}
 
 
@@ -155,7 +182,7 @@
 
 		function callsolr(){
 
-			query = 'https://search-build.equipmentone.com/e1_search?wt=json&q=*&fq={!tag=mar}marketplace:(%22EquipmentOne%22)&fq=auctionEndDateTimeUTC:([NOW%20TO%20*])&sort=siteSort%20asc,auctionEndDateTimeUTC%20asc,reserveType%20asc,highBidAmount%20desc&rows=5';
+			query = 'https://search-build.equipmentone.com/e1_search?wt=json&q=*&fq={!tag=mar}marketplace:(%22EquipmentOne%22)&fq=auctionEndDateTimeUTC:([NOW%20TO%20*])&sort=siteSort%20asc,auctionEndDateTimeUTC%20asc,reserveType%20asc,highBidAmount%20desc&start=160&rows=5';
 				
 			$.ajax({
 				 'url': query,
@@ -177,7 +204,11 @@
 		function processListings(res){
 			$.each(res, function(objRes ,dataRes){
 				$.each(dataRes, function(key ,val){
-				
+					
+
+
+
+
 					if(key == 'title'){
 						var html = '<div class="col-sm-6 col-md-2 col-xs-12 lotTemplet">';
 						if(dataRes['featuredImageUrl'] == undefined)
@@ -191,7 +222,7 @@
 					}
 					
 				})
-			})
+			});
 		}
 
 		function defaultImg(img){

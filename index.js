@@ -21,13 +21,19 @@ restService.post('/hook', function (req, res) {
 
     try {
         var speech = "I'm a bit confused by that last part.";
-        var source=  'apiai-webhook-sample';
+        var source=  'smart-rb';
         if (req.body) {
             var requestBody = req.body;
 
             // place bidding
             if(requestBody.result.action == 'placing-bid'){
-                speech = 'please wait for sometime we are processing...'
+                
+            }
+
+            if(requestBody.result.action == 'first_listing'){
+
+                speech = 'I am processing bidding on your name';
+            
             }
 
             if(requestBody.result.action == 'listings'){
