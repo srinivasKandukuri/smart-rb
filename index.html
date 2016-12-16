@@ -32,19 +32,8 @@
 	<script type="text/javascript">
 		var accessToken = "92036f9e6ec24dfe896fc9c74562f47b";
 		var baseUrl = "https://api.api.ai/v1/";
-		var clipyagent = "";
-
 		$(document).ready(function() {
 
-			   clippy.load('Merlin', function(agent) {
-			    // Do anything with the loaded agent
-			     const animations = agent.animations();    
-			    clipyagent = agent;
-			    agent.show();
-			    agent.moveTo(200,200);
-			    agent.speak('Welcome to live RB auction');
-
-			   });
 
 		var listing1 = localStorage.getItem("listing_1");
 		var listing2 = localStorage.getItem("listing_2");
@@ -105,9 +94,6 @@
 			    	text += event.results[i][0].transcript;
 			    }
 			    setInput(text);
-			    clipyagent.stop();
-			    clipyagent.play('StartListening');
-			    clipyagent.speak(text);
 				stopRecognition();
 			};
 			recognition.onend = function() {
@@ -265,7 +251,6 @@
 			$.each(res, function(objRes ,dataRes){
 				$.each(dataRes, function(key ,val){
 					
-
 
 
 
