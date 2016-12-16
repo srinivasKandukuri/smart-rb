@@ -30,8 +30,11 @@
 	<script type="text/javascript">
 		var accessToken = "92036f9e6ec24dfe896fc9c74562f47b";
 		var baseUrl = "https://api.api.ai/v1/";
+		var bidUrl = "http://capsule-build-1.assetnation.com:30061";
 		$(document).ready(function() {
-
+var listing__1 = localStorage.getItem("listing__1");
+					listing__1 = JSON.parse(listing__1);
+					processingOnSiteBidding(listing__1);
 
 		var listing1 = localStorage.getItem("listing_1");
 		var listing2 = localStorage.getItem("listing_2");
@@ -178,6 +181,12 @@
 					processing_bidding(listing2);	
 				}
 
+				if(val.result.action == 'Bidding-Now'){
+					var listing__1 = localStorage.getItem("listing__1");
+					listing__1 = JSON.parse(listing__1);
+					processingOnSiteBidding(listing__1);
+				}
+
 
 				if(val.result.fulfillment.speech == 'we have 5 listings in live auction'){
 					console.log('reading listings from json');
@@ -186,6 +195,25 @@
 				}
 				console.log('REPONSE--- :' + JSON.stringify(val, undefined, 2));
 			}
+		}
+
+		function processingOnSiteBidding(details){
+
+			var jsonObj = {':listingID':details.listingID,':bidAmount':details.bid_amount ,':userID':details.buyerId,':bidType':'bid'} 
+			 $.ajax({
+			        url: bidUrl+"listing/391725/placebid/bidType/BID/userID/1781336/bidAmount/50/needToSaveTerm/true",
+			        method: "POST",
+			        data: JSON.stringify(jsonObj),
+			       	contentType: "application/json; charset=utf-8",
+		            crossDomain: true,
+		            dataType: "json",
+			         success: function(result,status,jqXHR ){
+			              console.log(result);	
+			         },
+			         error(jqXHR, textStatus, errorThrown){
+			             //Do something
+			         }
+			    }); 
 		}
 
 
@@ -246,11 +274,22 @@
 		}
 
 		function processListings(res){
+			var index_val = 1;
 			$.each(res, function(objRes ,dataRes){
+
+				var bid_listings = localStorage.getItem("listing__"+index_val);
+					if(bid_listings == null || bid_listings == undefined){
+
+						var jsonLocal = JSON.stringify({'bid_amount':dataRes["nextBidAmount"],'bid_status':1,'lot_status':1,'listingID':dataRes["listingID"],'buyerId':'100167'});
+					
+						console.log(jsonLocal);
+						localStorage.setItem("listing__"+index_val, jsonLocal);
+						
+						index_val ++;
+					}	
+
 				$.each(dataRes, function(key ,val){
 					
-
-
 
 					if(key == 'title'){
 						var html = '<div class="col-sm-6 col-md-2 col-xs-12 lotTemplet">';

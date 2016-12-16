@@ -42,6 +42,12 @@ restService.post('/hook', function (req, res) {
             
             }
 
+            if(requestBody.result.action == 'Bidding-Now'){
+
+                speech  = 'Now I am processing bidding on onsite lot'; 
+            
+            }
+
 
 
             if(requestBody.result.action == 'listings'){
