@@ -21,7 +21,7 @@ restService.post('/hook', function (req, res) {
 
     try {
         var speech = "I'm a bit confused by that last part.";
-        var imageUrl ='';
+        var source=  'apiai-webhook-sample',
         if (req.body) {
             var requestBody = req.body;
 
@@ -41,7 +41,7 @@ restService.post('/hook', function (req, res) {
             }
             if(requestBody.result.action == 'live-auction-location'){
                 speech = 'Hwy 12 North & Cory Road, Saskatoon, SK S7K 3J7, Canada';
-                imageUrl = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d23251.763568709233!2d-106.68363479855442!3d52.22447963797061!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x530458b46ccf417f%3A0x65e91fccb7925a9b!2sRitchie+Bros.+Auctioneers!5e0!3m2!1sen!2sin!4v1481865297318';
+                source = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d23251.763568709233!2d-106.68363479855442!3d52.22447963797061!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x530458b46ccf417f%3A0x65e91fccb7925a9b!2sRitchie+Bros.+Auctioneers!5e0!3m2!1sen!2sin!4v1481865297318';
             }
         }
 
@@ -50,8 +50,7 @@ restService.post('/hook', function (req, res) {
         return res.json({
             speech: speech,
             displayText: speech,
-            source: 'apiai-webhook-sample',
-            mapLnk: imageUrl
+            source: source
         });
     } catch (err) {
         console.error("Can't process request", err);

@@ -133,10 +133,9 @@
 
 
 				if(val.result.action == 'live-auction-location'){
-					mapUrl = val.result.fulfillment.imageUrl;
-	
-					$('.jsMapLabel').removeClass('hidden');
-				               
+					mapUrl = val.result.fulfillment.source;
+
+					$('.jsMapLabel').removeClass('hidden');				             
 					$('.jsMap').attr('src',mapUrl);
             
 				}
