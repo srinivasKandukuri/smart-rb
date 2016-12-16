@@ -30,11 +30,18 @@ restService.post('/hook', function (req, res) {
                 
             }
 
-            if(requestBody.result.action == 'first_listing' || requestBody.result.action == 'second_listing'){
+            if(requestBody.result.action == 'first_listing'){
 
                 speech = 'I am processing bidding on your name';
             
             }
+
+            if(requestBody.result.action == 'second_listing'){
+
+                speech = 'I am processing bidding on your name';
+            
+            }
+
 
 
             if(requestBody.result.action == 'listings'){
