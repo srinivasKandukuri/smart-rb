@@ -35,6 +35,7 @@
 				if (event.which == 13) {
 					event.preventDefault();
 					$('.jsListings').html('');
+					$('.jsMapLabel').addClass('hidden');
 					send();
 				}
 			});
@@ -90,6 +91,7 @@
 		}
 		function setInput(text) {
 			$('.jsListings').html('');
+			$('.jsMapLabel').addClass('hidden');
 			$("#input").val(text);
 			send();
 		}
@@ -128,6 +130,18 @@
 			if(val != 'Loading...'){
 				$('#jsspeech').html(val.result.fulfillment.speech);
 				responsiveVoice.speak(val.result.fulfillment.speech, "UK English Female", {volume: 1});
+
+
+				if(val.result.action == 'live-auction-location'){
+					mapUrl = val.result.fulfillment.imageUrl;
+	
+					$('.jsMapLabel').removeClass('hidden');
+				               
+					$('.jsMap').attr('src',mapUrl);
+            
+				}
+
+
 				if(val.result.fulfillment.speech == 'we have 5 listings in live auction'){
 					console.log('reading listings from json');
 					
@@ -167,7 +181,7 @@
 						if(dataRes['featuredImageUrl'] == undefined)
 							html += '<img src="http://i69.photobucket.com/albums/i76/pro53/tbird160x120sm.gif" id="lot-img" style="height: 120px" />';
 						else
-							html += '<img src="'+dataRes['featuredImageUrl']+'" id="lot-img" />';
+							html += '<img onerror="defaultImg(this)" src="'+dataRes['featuredImageUrl']+'" id="lot-img" />';
 							
 							html += '<div class="lot-title">'+dataRes['title']+'</div>';
 							html += '</div>';
@@ -178,7 +192,10 @@
 			})
 		}
 
-
+		function defaultImg(img){
+			img.onerror = "";
+			img.src = 'http://i69.photobucket.com/albums/i76/pro53/tbird160x120sm.gif';
+		}
 
 	</script>
 	<style type="text/css">
@@ -194,11 +211,25 @@
 	}
 	.samplebox{
 		background-color: rgba(204, 158, 153, 0.14);
+		margin-top: 10px;
 	}
 	#lot-img{
 	    width: 100%;
 	    height: auto;
 	}
+	.map-responsive{
+    overflow:hidden;
+    padding-bottom:56.25%;
+    position:relative;
+    height:0;
+}
+.map-responsive iframe{
+    left:0;
+    top:0;
+    height:100%;
+    width:100%;
+    position:absolute;
+}
 	</style>
 	
 </head>
@@ -222,13 +253,19 @@
 
 <div class="container">
 <div class="container-fluid bg-1 text-center">
-	
+			
 		    <div class="col-md-offset-2 row jsListings"></div>
 
 
 			<div class="row">
 				<div class="col-md-6 col-md-offset-3 samplebox">
 					<h1 id="jsspeech"></h1>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3 samplebox jsMapLabel hidden map-responsive">
+					<iframe class="jsMap" src="" width="600" height="400" frameborder="0" style="border:0" allowfullscreen></iframe>
 				</div>
 			</div>
 </div>
