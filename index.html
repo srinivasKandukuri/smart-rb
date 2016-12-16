@@ -169,12 +169,12 @@
             
 				}
 
-				if(val.result.action = 'first_listing'){
+				if(val.result.action == 'first_listing'){
 					var listing1 = localStorage.getItem("listing_1");
 					listing1 = JSON.parse(listing1);
 					processing_bidding(listing1);	
 				}
-				if(val.result.action = 'second_listing'){
+				if(val.result.action == 'second_listing'){
 					var listing2 = localStorage.getItem("listing_2");
 					listing2 = JSON.parse(listing2);
 					processing_bidding(listing2);	
