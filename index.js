@@ -21,7 +21,7 @@ restService.post('/hook', function (req, res) {
 
     try {
         var speech = "I'm a bit confused by that last part.";
-        var source=  'apiai-webhook-sample',
+        var source=  'apiai-webhook-sample';
         if (req.body) {
             var requestBody = req.body;
 
