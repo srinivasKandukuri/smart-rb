@@ -37,8 +37,9 @@
 		var listing2 = localStorage.getItem("listing_2");
 
 
-		var first_listing = JSON.stringify({'bid_amount':100, 'bid_status':1 ,'lot_status':1});
-		var second_listing = JSON.stringify({'bid_amount':100, 'bid_status':1 ,'lot_status':1});
+		var first_listing = JSON.stringify({'bid_amount':100, 'bid_status':1 ,'lot_status':1,'lot_title':'2012 Caterpillar 777G Rock Truck', 'lot_image':'https://res.cloudinary.com/assetnation-dev/t_an_small/auction_media/80674/n1enrgxkppzacmyt4ru3.jpg'});
+
+		var second_listing = JSON.stringify({'bid_amount':100, 'bid_status':1 ,'lot_status':1,'lot_title':'1998 Caterpillar 785B Rock Truck', 'lot_image':'https://res.cloudinary.com/assetnation-dev/t_an_small/auction_media/80674/fnakar046iymvvpm2zcf.jpg'});
 
 		if(listing1 == null || listing1 == undefined){
 				localStorage.setItem("listing_1",first_listing);
@@ -48,20 +49,12 @@
 				localStorage.setItem("listing_2",second_listing);
 		}
 
-
-
-
-
-
-
-
-
-
 			$("#input").keypress(function(event) {
 				if (event.which == 13) {
 					event.preventDefault();
 					$('.jsListings').html('');
 					$('.jsMapLabel').addClass('hidden');
+					$('.jslistingDetails').addClass('hidden');
 					send();
 				}
 			});
@@ -118,6 +111,7 @@
 		function setInput(text) {
 			$('.jsListings').html('');
 			$('.jsMapLabel').addClass('hidden');
+			$('.jslistingDetails').addClass('hidden');
 			$("#input").val(text);
 			send();
 		}
@@ -168,13 +162,22 @@
 				}
 
 				if(val.result.action == 'first_listing'){
+					$('.jslistingDetails').removeClass('hidden');
 					var listing1 = localStorage.getItem("listing_1");
 					listing1 = JSON.parse(listing1);
+
+					$('.jslistingDetails').removeClass('hidden');
+					$('#listingdetails').attr('src',listing1.lot_image);
+					$('.jsTitleListing').html(listing1.lot_title);
 					processing_bidding(listing1);	
 				}
 				if(val.result.action == 'second_listing'){
+					$('.jslistingDetails').removeClass('hidden');
 					var listing2 = localStorage.getItem("listing_2");
 					listing2 = JSON.parse(listing2);
+					$('.jslistingDetails').removeClass('hidden');
+					$('#listingdetails').attr('src',listing1.lot_image);
+					$('.jsTitleListing').html(listing1.lot_title);
 					processing_bidding(listing2);	
 				}
 
@@ -197,7 +200,9 @@
 								 responsiveVoice.speak('Your are winning bidder and High your bid amount' +listing1.bid_amount+ 'dollars'  , "UK English Female", {volume: 1});
 								var first_listing = JSON.stringify(listing1);
 								localStorage.setItem("listing_1",first_listing);
-			
+								$('.jsHighbid').html(listing1.bid_amount);
+								$('.jsLotStatus').html('Winning');
+								
 							}
 							else if(listing1.bid_status == 2){
 								listing1.bid_status = 3;
@@ -205,22 +210,30 @@
 								 responsiveVoice.speak('Your are out bidden and current High your bid amount' +listing1.bid_amount + 'dollars' , "UK English Female", {volume: 1});
 								 var first_listing = JSON.stringify(listing1);
 								localStorage.setItem("listing_1",first_listing);
+								$('.jsHighbid').html(listing1.bid_amount);
+								$('.jsLotStatus').html('OutBidden');
 							}else if(listing1.bid_status == 3){
 								listing1.bid_status = 4;
 								listing1.bid_amount = listing1.bid_amount + 100;
 								responsiveVoice.speak('Your are winning bidder and High your bid amount' +listing1.bid_amount+ 'dollars'  , "UK English Female", {volume: 1});
 								 var first_listing = JSON.stringify(listing1);
 								localStorage.setItem("listing_1",first_listing);
+								$('.jsHighbid').html(listing1.bid_amount);
+								$('.jsLotStatus').html('Winning');
 							}else if(listing1.bid_status == 4){
 								listing1.lot_status= 0;
 								listing1.bid_status = 5;
 								listing1.bid_amount = listing1.bid_amount + 100;
-								 responsiveVoice.speak('First listing status closed and last High your bid amount' +listing1.bid_amount + 'dollars' , "UK English Female", {volume: 1});
+								 responsiveVoice.speak('Listing status closed and last High your bid amount' +listing1.bid_amount + 'dollars' , "UK English Female", {volume: 1});
 								 var first_listing = JSON.stringify(listing1);
 								localStorage.setItem("listing_1",first_listing);
+								$('.jsHighbid').html(listing1.bid_amount);
+								$('.jsLotStatus').html('Closed');
 							}
 						}else{
 							responsiveVoice.speak('Listing Status closed . I cant bid'  , "UK English Female", {volume: 1});
+								$('.jsNobid').addClass('hidden');
+								$('.jsLotStatus').html('Closed');
 						}
 		}
 
@@ -342,6 +355,22 @@
 			<div class="row">
 				<div class="col-md-6 col-md-offset-3 samplebox jsMapLabel hidden map-responsive">
 					<iframe class="jsMap" src="" width="600" height="400" frameborder="0" style="border:0" allowfullscreen></iframe>
+				</div>
+			</div>
+</div>
+
+</div>
+
+
+<div class="container">
+<div class="container-fluid bg-1 text-center">
+			
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3 samplebox jslistingDetails hidden">
+					<div class="jsTitleListing"></div> 
+					<div class='jsNobid'><b>HIGH BID $<span class="jsHighbid"></span></b></div>
+					<div><b>Lot Status <span class="jsLotStatus"></span></b></div>
+					<img src="" id="listingdetails" class="" style="height: 120px"> 
 				</div>
 			</div>
 </div>
