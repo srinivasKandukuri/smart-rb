@@ -12,4 +12,4 @@ More info about Api.ai webhooks could be found here:
 It's a simple echo service that takes `resolvedQuery` and `action` fields from the Api.ai JSON reponse and echoes them back in into `speech` and `displayTest` fields in the fulfillment JSON.
 
 # Demo Site 
-https://smart-rb.herokuapp.com/
+http://smart-rb.herokuapp.com/
