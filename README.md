@@ -13,3 +13,22 @@ It's a simple echo service that takes `resolvedQuery` and `action` fields from t
 
 # Demo Site 
 http://smart-rb.herokuapp.com/
+
+
+#Intent Speech:
+# Examples
+1. Hi / hello
+
+2. tell me about yourself 
+
+3. location of live auction
+   live auction location
+
+4. show me live auction lots
+ get me live auction lots
+
+5. place a bid on first lot
+ bid on first lot
+
+6. bid on second lot
+ place a bid on second lot
