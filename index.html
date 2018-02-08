@@ -32,6 +32,21 @@
 		var baseUrl = "https://api.api.ai/v1/";
 		$(document).ready(function() {
 
+		var buyerId = localStorage.getItem("buyer_id");
+
+		if(buyerId == null || buyerId ==undefined){
+		 	$('#memberModal').modal('show');
+		 }
+
+ 		$('.jsSaveBuyerId').click(function(){
+ 			var unique = $('#buyer_id').val();
+ 			if(unique ==''){
+ 				$('#memberModal').modal('show');
+ 			}else{	
+ 				localStorage.setItem("buyer_id", unique);
+ 			}
+
+ 		})
 
 		var listing1 = localStorage.getItem("listing_1");
 		var listing2 = localStorage.getItem("listing_2");
@@ -181,6 +196,10 @@
 					processing_bidding(listing2);	
 				}
 
+				if(val.result.action == 'street-view'){
+				     streetMap();
+				     $('#street-view').removeClass('hidden');
+				    }
 
 				if(val.result.fulfillment.speech == 'we have 5 listings in live auction'){
 					console.log('reading listings from json');
@@ -286,7 +305,21 @@
 			img.src = 'http://i69.photobucket.com/albums/i76/pro53/tbird160x120sm.gif';
 		}
 
+var panorama;
+    function streetMap() {
+   panorama = new google.maps.StreetViewPanorama(
+    $('#street-view')[0],
+    {
+     position: {lat: 52.222702, lng: -106.670717},
+      pov: {heading: 165, pitch: 0},
+      zoom: 1
+    });
+}
+
 	</script>
+
+
+
 	<style type="text/css">
 	.speak{
 		background-color: rgb(43, 75, 148);
@@ -319,6 +352,7 @@
     width:100%;
     position:absolute;
 }
+
 	</style>
 	
 </head>
@@ -356,6 +390,7 @@
 				<div class="col-md-6 col-md-offset-3 samplebox jsMapLabel hidden map-responsive">
 					<iframe class="jsMap" src="" width="600" height="400" frameborder="0" style="border:0" allowfullscreen></iframe>
 				</div>
+
 			</div>
 </div>
 
@@ -380,13 +415,31 @@
 
 
 
+<div class="col-md-6 col-md-offset-3 samplebox" id="street-view"></div>
 
 
+<!-- Modal -->
+<div class="modal fade" id="memberModal" tabindex="-1" role="dialog" aria-labelledby="memberModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+               
+                </button>
+                 <h4 class="modal-title text-center" id="memberModalLabel">Please enter your buyer ID</h4>
 
-	
-
-
-
+            </div>
+            <div class="modal-body">
+           
+           	<input type="text" class="form-control" id="buyer_id">
+          		<div class="modal-footer">
+                <button type="button" class="btn btn-primary jsSaveBuyerId" data-dismiss="modal">Save My Id</button>
+            </div>
+          </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
 
 
 
@@ -400,6 +453,11 @@
     
    <script src="http://code.responsivevoice.org/responsivevoice.js"></script>
     <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+
+      <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDyuW3YUccrZxpED7I3N9Qb-my7zm5iafo">
+  
+    </script>
 
 </body>
 </html>
